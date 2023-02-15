@@ -16,5 +16,6 @@
     <string name="text_bouton_substract" translatable="false">-</string>
     <string name="text_bouton_multiply" translatable="false">x</string>
     <string name="text_bouton_divide" translatable="false">/</string>
+    <string name= "toolbar_clear">Nettoyer</string>
 
 </resources>
