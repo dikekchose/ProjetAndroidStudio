@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_bouton_calcul">Calcul en allemand</string>
+    <string name="text_bouton_dernier_calcul">Dernier Calcul en allemand</string>
+</resources>
