@@ -3,6 +3,7 @@ package com.example.cours_groupe2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,11 +30,11 @@ public class CalculActivity extends AppCompatActivity {
     private Button bouton0;
 
     private Integer premierTerme = 0;
-    private Integer deuxiemeTerme= 0;
+    private Integer deuxiemeTerme = 0;
     private TypeOperationEnum typeOperation;
 
 
-    private String calcul ="";
+    private String calcul = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,57 +100,98 @@ public class CalculActivity extends AppCompatActivity {
 
     }
 
-    private void ajouterSymbole(TypeOperationEnum typeOperation){
-        if(this.typeOperation!=null){
-            Toast.makeText(this,getString(R.string.ERROR_ALREADY_HAVE_CALCUL_TYPE),Toast.LENGTH_LONG).show();
-        }else{
+    private void ajouterSymbole(TypeOperationEnum typeOperation) {
+        if (this.typeOperation != null) {
+            Toast.makeText(this, getString(R.string.ERROR_ALREADY_HAVE_CALCUL_TYPE), Toast.LENGTH_LONG).show();
+        } else {
             this.typeOperation = typeOperation;
             majTextView();
         }
     }
 
-    private void ajouterChiffre(Integer chiffre){
-        if(this.typeOperation==null){
-            if(premierTerme<=9999){
-                premierTerme = 10*premierTerme + chiffre;
+    private void ajouterChiffre(Integer chiffre) {
+        if (this.typeOperation == null) {
+            if (premierTerme <= 9999) {
+                premierTerme = 10 * premierTerme + chiffre;
                 majTextView();
-            }else{
-                Toast.makeText(this,getString(R.string.ERROR_NUMBER_TOO_HIGH),Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, getString(R.string.ERROR_NUMBER_TOO_HIGH), Toast.LENGTH_LONG).show();
             }
-        }else{
-            if(deuxiemeTerme<=9999){
-                deuxiemeTerme = 10*deuxiemeTerme + chiffre;
+        } else {
+            if (deuxiemeTerme <= 9999) {
+                deuxiemeTerme = 10 * deuxiemeTerme + chiffre;
                 majTextView();
-            }else{
-                Toast.makeText(this,getString(R.string.ERROR_NUMBER_TOO_HIGH),Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, getString(R.string.ERROR_NUMBER_TOO_HIGH), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void majTextView(){
-        if(typeOperation==null){
-            textViewCalcul.setText(""+premierTerme);
-        }else{
-            textViewCalcul.setText(premierTerme+typeOperation.getSymbole()+deuxiemeTerme);
+    private void majTextView() {
+        if (typeOperation == null) {
+            textViewCalcul.setText("" + premierTerme);
+        } else {
+            textViewCalcul.setText(premierTerme + typeOperation.getSymbole() + deuxiemeTerme);
         }
     }
-    private void ajouteCharactere(String character){
-        calcul+=character;
+
+    private void ajouteCharactere(String character) {
+        calcul += character;
         textViewCalcul.setText(calcul);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar,menu);
+        menuInflater.inflate(R.menu.toolbar, menu);
         MenuItem boutonNettoyer = menu.findItem(R.id.toolbar_clear);
         boutonNettoyer.setOnMenuItemClickListener(view -> {
             textViewCalcul.setText("");
-            calcul="";
-            this.typeOperation=null;
+            calcul = "";
+            this.typeOperation = null;
             return true;
         });
 
+        MenuItem boutonCalcul = menu.findItem(R.id.toolbar_calcul);
+        boutonCalcul.setOnMenuItemClickListener(view -> {
+            return faisLeCalcul();
+        });
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private boolean faisLeCalcul() {
+        Integer resultat=0;
+        if(verifieLeCalcul()){
+            switch (typeOperation){
+                case ADD:
+                    resultat =premierTerme+deuxiemeTerme;
+                    break;
+                case SUBSTRACT:
+                    resultat = premierTerme-deuxiemeTerme;
+                    break;
+                case DIVIDE:
+                    resultat = premierTerme/deuxiemeTerme;
+                    break;
+                case MULTIPLY:
+                    resultat= premierTerme*deuxiemeTerme;
+            }
+            Intent intent = new Intent(this,ResulstatActivity.class);
+            intent.putExtra("PREMIER_TERME",premierTerme);
+            intent.putExtra("symbol",typeOperation.getSymbole());
+            intent.putExtra("DEUXIEME_TERME",deuxiemeTerme);
+            intent.putExtra("RESULTAT",resultat);
+            startActivity(intent);
+        }
+        return true;
+    }
+
+    private boolean verifieLeCalcul() {
+        if ((premierTerme == 0 || deuxiemeTerme == 0 || typeOperation == null)) {
+            Toast.makeText(this, getString(R.string.MALFORMED_CALCUL), Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 }
