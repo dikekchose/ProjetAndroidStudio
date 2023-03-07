@@ -12,6 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cours_groupe2.DAO.CalculBaseHelper;
+import com.example.cours_groupe2.DAO.CalculDao;
+import com.example.cours_groupe2.model.entities.Calcul;
+
 public class CalculActivity extends AppCompatActivity {
     private TextView textViewCalcul;
     private Button boutonPlus;
@@ -33,6 +37,7 @@ public class CalculActivity extends AppCompatActivity {
     private Integer deuxiemeTerme = 0;
     private TypeOperationEnum typeOperation;
 
+    private CalculDao calculDao;
 
     private String calcul = "";
 
@@ -40,6 +45,7 @@ public class CalculActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calcul);
+        calculDao= new CalculDao(new CalculBaseHelper(this,"BDD",1));
         textViewCalcul = findViewById(R.id.textViewCalcul);
         boutonDivide = findViewById(R.id.button_divide);
         boutonDivide.setOnClickListener(view -> {
@@ -176,6 +182,12 @@ public class CalculActivity extends AppCompatActivity {
                 case MULTIPLY:
                     resultat= premierTerme*deuxiemeTerme;
             }
+            Calcul monCalcul = new Calcul();
+            monCalcul.setPremierElement(premierTerme);
+            monCalcul.setDeuxiemeElement(deuxiemeTerme);
+            monCalcul.setResultat(resultat);
+            monCalcul.setSymbole(typeOperation.getSymbole());
+            calculDao.create(monCalcul);
             Intent intent = new Intent(this,ResulstatActivity.class);
             intent.putExtra("PREMIER_TERME",premierTerme);
             intent.putExtra("symbol",typeOperation.getSymbole());

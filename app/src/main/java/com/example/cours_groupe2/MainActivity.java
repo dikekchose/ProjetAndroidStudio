@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button boutonCalcul;
 
+    private Button boutonDernierCalcul;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
         boutonCalcul = findViewById(R.id.boutonCalcul);
         boutonCalcul.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this,CalculActivity.class);
+            startActivity(intent);
+        });
+
+        boutonDernierCalcul= findViewById(R.id.boutonDernierCalcul);
+        boutonDernierCalcul.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this,LastActivity.class);
             startActivity(intent);
         });
     }
