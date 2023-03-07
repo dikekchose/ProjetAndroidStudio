@@ -17,5 +17,7 @@
     <string name="text_bouton_multiply" translatable="false">x</string>
     <string name="text_bouton_divide" translatable="false">/</string>
     <string name= "toolbar_clear">Nettoyer</string>
+    <string name="ERROR_ALREADY_HAVE_CALCUL_TYPE"> Il ne peut y avoir qu\'un seul type de calcul</string>
+    <string name="ERROR_NUMBER_TOO_HIGH"> Le nombre est trop grand</string>
 
 </resources>

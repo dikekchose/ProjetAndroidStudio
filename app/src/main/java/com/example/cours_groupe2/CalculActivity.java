@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CalculActivity extends AppCompatActivity {
     private TextView textViewCalcul;
@@ -27,6 +28,10 @@ public class CalculActivity extends AppCompatActivity {
     private Button bouton9;
     private Button bouton0;
 
+    private Integer premierTerme = 0;
+    private Integer deuxiemeTerme= 0;
+    private TypeOperationEnum typeOperation;
+
 
     private String calcul ="";
 
@@ -37,67 +42,97 @@ public class CalculActivity extends AppCompatActivity {
         textViewCalcul = findViewById(R.id.textViewCalcul);
         boutonDivide = findViewById(R.id.button_divide);
         boutonDivide.setOnClickListener(view -> {
-            ajouteCharactere(" / ");
+            ajouterSymbole(TypeOperationEnum.DIVIDE);
         });
         boutonPlus = findViewById(R.id.button_plus);
         boutonPlus.setOnClickListener(view -> {
-            ajouteCharactere(" + ");
-        });
-        boutonPlus = findViewById(R.id.button_plus);
-        boutonPlus.setOnClickListener(view -> {
-            ajouteCharactere(" + ");
+            ajouterSymbole(TypeOperationEnum.ADD);
         });
         bouton0 = findViewById(R.id.buttonZero);
         bouton0.setOnClickListener(view -> {
-            ajouteCharactere("0");
+            ajouterChiffre(0);
         });
         bouton1 = findViewById(R.id.button_1);
         bouton1.setOnClickListener(view -> {
-            ajouteCharactere("1");
+            ajouterChiffre(1);
         });
         bouton2 = findViewById(R.id.button_2);
         bouton2.setOnClickListener(view -> {
-            ajouteCharactere("2");
+            ajouterChiffre(2);
         });
         bouton3 = findViewById(R.id.button_3);
         bouton3.setOnClickListener(view -> {
-            ajouteCharactere("3");
+            ajouterChiffre(3);
         });
         bouton4 = findViewById(R.id.button_4);
         bouton4.setOnClickListener(view -> {
-            ajouteCharactere("4");
+            ajouterChiffre(4);
         });
         bouton5 = findViewById(R.id.button_5);
         bouton5.setOnClickListener(view -> {
-            ajouteCharactere("5");
+            ajouterChiffre(5);
         });
         bouton6 = findViewById(R.id.button_6);
         bouton6.setOnClickListener(view -> {
-            ajouteCharactere("6");
+            ajouterChiffre(6);
         });
         bouton7 = findViewById(R.id.button_7);
         bouton7.setOnClickListener(view -> {
-            ajouteCharactere("7");
+            ajouterChiffre(7);
         });
         bouton8 = findViewById(R.id.button_8);
         bouton8.setOnClickListener(view -> {
-            ajouteCharactere("8");
+            ajouterChiffre(8);
         });
         bouton9 = findViewById(R.id.button_9);
         bouton9.setOnClickListener(view -> {
-            ajouteCharactere("9");
+            ajouterChiffre(9);
         });
         boutonSubstract = findViewById(R.id.button_substract);
         boutonSubstract.setOnClickListener(view -> {
-            ajouteCharactere(" - ");
+            ajouterSymbole(TypeOperationEnum.SUBSTRACT);
         });
         boutonMultiply = findViewById(R.id.button_multiply);
         boutonMultiply.setOnClickListener(view -> {
-            ajouteCharactere(" x ");
+            ajouterSymbole(TypeOperationEnum.MULTIPLY);
         });
 
     }
 
+    private void ajouterSymbole(TypeOperationEnum typeOperation){
+        if(this.typeOperation!=null){
+            Toast.makeText(this,getString(R.string.ERROR_ALREADY_HAVE_CALCUL_TYPE),Toast.LENGTH_LONG).show();
+        }else{
+            this.typeOperation = typeOperation;
+            majTextView();
+        }
+    }
+
+    private void ajouterChiffre(Integer chiffre){
+        if(this.typeOperation==null){
+            if(premierTerme<=9999){
+                premierTerme = 10*premierTerme + chiffre;
+                majTextView();
+            }else{
+                Toast.makeText(this,getString(R.string.ERROR_NUMBER_TOO_HIGH),Toast.LENGTH_LONG).show();
+            }
+        }else{
+            if(deuxiemeTerme<=9999){
+                deuxiemeTerme = 10*deuxiemeTerme + chiffre;
+                majTextView();
+            }else{
+                Toast.makeText(this,getString(R.string.ERROR_NUMBER_TOO_HIGH),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void majTextView(){
+        if(typeOperation==null){
+            textViewCalcul.setText(""+premierTerme);
+        }else{
+            textViewCalcul.setText(premierTerme+typeOperation.getSymbole()+deuxiemeTerme);
+        }
+    }
     private void ajouteCharactere(String character){
         calcul+=character;
         textViewCalcul.setText(calcul);
@@ -111,6 +146,7 @@ public class CalculActivity extends AppCompatActivity {
         boutonNettoyer.setOnMenuItemClickListener(view -> {
             textViewCalcul.setText("");
             calcul="";
+            this.typeOperation=null;
             return true;
         });
 
