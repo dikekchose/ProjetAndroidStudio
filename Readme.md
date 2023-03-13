@@ -54,3 +54,7 @@ Activité a propos :
 
 Les 2 noms du binomes,Feature en plus.
 
+
+
+Contact : jerome.gerard02@outlook.fr
+
