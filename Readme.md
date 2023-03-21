@@ -6,6 +6,11 @@ https://github.com/GerardJerome/cours_groupe2/tree/master/app/src/main/java/com/
 -------------------------------------------------------SUJET PROJET---------------------------------------------------------------------------
 
 
+
+A rendre pour le 07/04/2023
+
+
+
 Mini jeu calcul mentale , 2 langue , français + une autre
 
 ANdroid 9.0
