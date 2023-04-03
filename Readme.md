@@ -12,6 +12,9 @@ https://forms.gle/zrM41SZyR8F4ubEE9
 
 
 
+
+POUR LES DIVISIONS JACCEPTE SI VOUS FAITES QUE DES DIVISON PAR 2
+
 A rendre pour le 07/04/2023
 
 
