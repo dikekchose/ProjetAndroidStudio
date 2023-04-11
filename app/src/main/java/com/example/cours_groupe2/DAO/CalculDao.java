@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.example.cours_groupe2.model.entities.Calcul;
 
-public class CalculDao extends BaseDao<Calcul> {
+public class CalculDao extends BaseDao<int> {
     public CalculDao(DataBaseHelper helper) {
         super(helper);
     }
@@ -18,6 +18,11 @@ public class CalculDao extends BaseDao<Calcul> {
     @Override
     protected String getTableName() {
         return TABLE_NAME;
+    }
+
+    @Override
+    protected void putValues(ContentValues values, int entity) {
+
     }
 
     @Override
